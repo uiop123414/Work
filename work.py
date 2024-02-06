@@ -11,7 +11,7 @@ import json
 from translator import remove_diacritics
 from utility import choose_random_word
 from pynput.keyboard import Key, Controller
-
+from prints import *
 
 
 class google_work:
@@ -85,7 +85,7 @@ class google_work:
         self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[1]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[1]/img').click()        
 
         self.url_google_site = self.driver.current_url
-        print('Sleep')
+        printOk('Sleep for 15 seconds')
         time.sleep(15)
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[5]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[2]/div[2]').click()
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[2]/div[1]/div').click()
@@ -405,7 +405,7 @@ class google_work:
                 break
             except:
                 action.send_keys(Keys.ESCAPE).perform()
-                print("Oops can't request indexing\n Next attempt in 30 seconds")
+                printError("Oops can't request indexing\n Next attempt in 30 seconds")
                 time.sleep(30)
         #Google index
         time.sleep(5)
@@ -423,34 +423,37 @@ class google_work:
                 break
             except:
                 action.send_keys(Keys.ESCAPE).perform()
-                print("Oops can't request indexing\n Next attempt in 30 seconds")
+                printError("Oops can't request indexing\n Next attempt in 30 seconds")
                 time.sleep(30)
+
+
 
 
 
 def main():
     gw = google_work()
+    printOk("Start working")
     while True:
         try:
             gw.create_site()
-            print("Site was created")
+            printOk("Site was created")
             break
         except:
-            print("Found error\nWait for 30 secoonds")
+            printError("Found error\nWait for 30 secoonds")
             time.sleep(30)
     # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
     gw.perform_analytics()
-    print("MEASUREMENT ID = ",gw.MEASUREMENT_ID,"\nAnalytics performed")
+    printOk("MEASUREMENT ID = ",gw.MEASUREMENT_ID,"\nAnalytics performed")
     gw.add_statistics()
-    print("Site with MEASUREMENT ID was published")
+    printOk("Site with MEASUREMENT ID was published")
     # gw.url = 'https://sites.google.com/view/duchodu-ceska/ramci'
     while True:
         try:
             gw.google_console()
-            print("Verifird")
+            printOk("Verifird")
             break
         except:
-            print("Verified error\nWait 30 second for another attempt")
+            printError("Verified error\nWait 30 second for another attempt")
             time.sleep(30)
 
 
