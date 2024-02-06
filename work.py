@@ -82,7 +82,7 @@ class google_work:
         action = ActionChains(self.driver)       
         self.driver.get('https://sites.google.com/u/0/new?pli=1&authuser=0')
 
-        self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[1]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[1]/img').click()        
+        self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[3]/div').click()        
 
         self.url_google_site = self.driver.current_url
         printOk('Sleep for 15 seconds')
@@ -98,8 +98,9 @@ class google_work:
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[3]/span/div/div/div/div[2]/div[2]/div/div/span[2]').click()
 
         time.sleep(3)
-        for _ in range(4):
+        for _ in range(20):
             action.send_keys(Keys.BACKSPACE).perform()
+            
         time.sleep(3)
         action.send_keys(self.first).perform()
         time.sleep(3)
@@ -430,7 +431,7 @@ class google_work:
 
 
 
-def main():
+def work():
     gw = google_work()
     printOk("Start working")
     while True:
@@ -459,5 +460,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    work()
     
