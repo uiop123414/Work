@@ -53,9 +53,9 @@ class google_work:
         octo_str = octo_str.replace("'", '')
 
         octo_id = octo_str.split(",")
-        print(octo_id)
 
 
+        self.PROFILE_ID = octo_id.pop(0)
         self.PROFILE_ID = octo_id.pop(0)
         self.LOCAL_API = f'http://localhost:{self.DATA.get("port")}/api/profiles'
 
@@ -233,7 +233,7 @@ class google_work:
         # self.driver.find_element(By.XPATH,'/html/body/div[7]/div/div/span[3]/div[2]/div').click()
         # time.sleep(5)
         self.url = str('https://sites.google.com/view/'+self.site_name+"/"+self.first)
-        print(self.url)
+        printOk(self.url)
         # time.sleep(200)
 
     def perform_analytics(self):
@@ -381,7 +381,7 @@ class google_work:
             time.sleep(2)
             self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[2]/div[2]/div/div[3]/div[2]/div/div').click()
         except:
-            print('is verified')
+            printError('is verified before')
         #find our site
         time.sleep(5)
         self.driver.find_element(By.XPATH,'/html/body/div[7]/div[2]/header/div[2]/div[2]/div[2]/form/div/div/div/div/div/div[1]/input[2]').click()
