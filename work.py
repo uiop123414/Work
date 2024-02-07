@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 from selenium import webdriver
-from selenium.common.exceptions import ElementClickInterceptedException
 import time
 import requests
 import json
@@ -16,9 +15,25 @@ from prints import *
 
 class google_work:
 
+
+    def get_user(self,id:int=4):
+
+        headers = {
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            'X-Octo-Api-Token': self.DATA['X-Octo-Api-Token']
+        }
+
+        url = f"https://app.octobrowser.net/api/v2/automation/profiles?search_tags="+self.DATA['title']
+
+        response_octo = requests.request("GET", url, headers=headers)
+        data_uuid = response_octo.json()
+
+        # Extract user_uuid from data_uuid
+        return data_uuid['data'][id]['uuid']
+
     def __init__(self,data_path="data.json") -> None:
-
-
 
         with open(data_path,'r',encoding="utf-8") as f:
             self.DATA = json.load(f)
@@ -27,36 +42,7 @@ class google_work:
 
         self.first,self.second,self.third = choose_random_word(self.DATA['Text']).lower(), choose_random_word(self.DATA['Text']).lower(), choose_random_word(self.DATA['Text']).lower()
 
-
-        headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9",
-                 'X-Octo-Api-Token': self.DATA['X-Octo-Api-Token']
-                }
-
-        url = f"https://app.octobrowser.net/api/v2/automation/profiles?search_tags={self.DATA['title']}"
-
-
-
-        response_octo = requests.request("GET", url, headers=headers)
-        data_uuid = response_octo.json()
-        uuid = data_uuid.get('data')
-        newuuid = dict()
-        for ud in uuid:
-            newuuid[ud.pop('uuid')] = ud
-
-        octo = str(newuuid)
-        octo_str = octo.replace("}", '')
-        octo_str = octo_str.replace("{", '')
-        octo_str = octo_str.replace(" ", '')
-        octo_str = octo_str.replace(":", '')
-        octo_str = octo_str.replace("'", '')
-
-        octo_id = octo_str.split(",")
-
-        self.PROFILE_ID = octo_id.pop(0)
-        self.PROFILE_ID = octo_id.pop(0)
-        self.PROFILE_ID = octo_id.pop(0)
+        self.PROFILE_ID = self.get_user(id=int(self.DATA['id']))
 
         self.LOCAL_API = f'http://localhost:{self.DATA.get("port")}/api/profiles'
 
@@ -397,7 +383,7 @@ class google_work:
             self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[2]/div[2]/div/div[3]/div[2]/div/div').click()
         except:
             printError('is verified before. Current url will not work')
-            # return
+            return
         #find our site
         time.sleep(5)
         self.driver.find_element(By.XPATH,'/html/body/div[7]/div[2]/header/div[2]/div[2]/div[2]/form/div/div/div/div/div/div[1]/input[2]').click()
@@ -459,15 +445,15 @@ def work():
     gw = google_work()
     printOk("Start working")
     
-    # gw.create_site()
-    # printOk("Site was created")
+    gw.create_site()
+    printOk("Site was created")
 
-    # # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
-    # gw.perform_analytics()
-    # printOk(str("MEASUREMENT ID = " + gw.MEASUREMENT_ID + "\nAnalytics performed"))
-    # gw.add_statistics()
-    # printOk("Site with MEASUREMENT ID was published")
-    gw.url = 'https://sites.google.com/view/CSSZ-variantou/call'
+    # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
+    gw.perform_analytics()
+    printOk(str("MEASUREMENT ID = " + gw.MEASUREMENT_ID + "\nAnalytics performed"))
+    gw.add_statistics()
+    printOk("Site with MEASUREMENT ID was published")
+    # gw.url = 'https://sites.google.com/view/CSSZ-variantou/call'
 
     gw.google_console()
     printOk("Verifird")
