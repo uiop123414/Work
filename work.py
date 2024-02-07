@@ -56,7 +56,6 @@ class google_work:
 
 
         self.PROFILE_ID = octo_id.pop(0)
-        self.PROFILE_ID = octo_id.pop(0)
         self.LOCAL_API = f'http://localhost:{self.DATA.get("port")}/api/profiles'
 
         port = self.get_debug_port(self.PROFILE_ID)
@@ -82,11 +81,16 @@ class google_work:
         action = ActionChains(self.driver)       
         self.driver.get('https://sites.google.com/u/0/new?pli=1&authuser=0')
 
-        self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[3]/div').click()        
-
-        self.url_google_site = self.driver.current_url
+        try:
+            self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[3]/div').click()    
+        except:
+            self.driver.find_element(By.XPATH,'/html/body/div[3]/div[2]/div[1]/div/div[2]/div/div/div/div[1]/div/div/div/div[1]/div[2]/div[1]/div[1]/img').click()  
+        
         printOk('Sleep for 15 seconds')
         time.sleep(15)
+        
+        self.url_google_site = self.driver.current_url
+
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[5]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[2]/div[2]').click()
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[2]/div[1]/div').click()
 
@@ -200,7 +204,7 @@ class google_work:
 
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[6]/div/div[2]/div[3]/div[2]').click()
 
-        time.sleep(1)        
+        time.sleep(5)        
         #blending button
         circle = self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section[3]/div[7]/div[6]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[4]/div[2]/div[2]')
         
@@ -396,7 +400,7 @@ class google_work:
         time.sleep(30)
 
         #Request indexing (Live test)
-        while True:
+        for _ in range(5):
             try:
                 self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[4]/div/div[2]/span/div/div[2]/span/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click()
                 time.sleep(15)
@@ -414,7 +418,7 @@ class google_work:
         time.sleep(10)
 
         #Request indexing (Google index)
-        while True:
+        for _ in range(5):
             try:
                 self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[3]/div/div[2]/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click()
                 time.sleep(15)
@@ -434,28 +438,20 @@ class google_work:
 def work():
     gw = google_work()
     printOk("Start working")
-    while True:
-        try:
-            gw.create_site()
-            printOk("Site was created")
-            break
-        except:
-            printError("Found error\nWait for 30 secoonds")
-            time.sleep(30)
+    
+    gw.create_site()
+    printOk("Site was created")
+
     # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
     gw.perform_analytics()
-    printOk("MEASUREMENT ID = ",gw.MEASUREMENT_ID,"\nAnalytics performed")
+    printOk(str("MEASUREMENT ID = " + gw.MEASUREMENT_ID + "\nAnalytics performed"))
     gw.add_statistics()
     printOk("Site with MEASUREMENT ID was published")
     # gw.url = 'https://sites.google.com/view/duchodu-ceska/ramci'
-    while True:
-        try:
-            gw.google_console()
-            printOk("Verifird")
-            break
-        except:
-            printError("Verified error\nWait 30 second for another attempt")
-            time.sleep(30)
+
+    gw.google_console()
+    printOk("Verifird")
+
 
 
 
