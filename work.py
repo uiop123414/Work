@@ -386,7 +386,8 @@ class google_work:
             time.sleep(2)
             self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[2]/div[2]/div/div[3]/div[2]/div/div').click()
         except:
-            printError('is verified before')
+            printError('is verified before. Current url will not work')
+            return
         #find our site
         time.sleep(5)
         self.driver.find_element(By.XPATH,'/html/body/div[7]/div[2]/header/div[2]/div[2]/div[2]/form/div/div/div/div/div/div[1]/input[2]').click()
