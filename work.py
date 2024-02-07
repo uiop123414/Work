@@ -134,7 +134,7 @@ class google_work:
         textPart.click()
         time.sleep(3)
         textPart.send_keys(Keys.CONTROL,'a')
-
+        time.sleep(3)
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[6]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[4]/div/div/div[3]/div/div/div[1]/label/input').click()
         action.send_keys(Keys.DELETE).perform()
         action.send_keys('18').perform()
@@ -155,7 +155,7 @@ class google_work:
         textPart.click()
         time.sleep(3)
         textPart.send_keys(Keys.CONTROL,'a')
-
+        time.sleep(3)
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[6]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[4]/div/div/div[3]/div/div/div[1]/label/input').click()
         action.send_keys(Keys.DELETE).perform()
         action.send_keys('24').perform()
