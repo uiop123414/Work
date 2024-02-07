@@ -54,8 +54,10 @@ class google_work:
 
         octo_id = octo_str.split(",")
 
-
         self.PROFILE_ID = octo_id.pop(0)
+        self.PROFILE_ID = octo_id.pop(0)
+        self.PROFILE_ID = octo_id.pop(0)
+
         self.LOCAL_API = f'http://localhost:{self.DATA.get("port")}/api/profiles'
 
         port = self.get_debug_port(self.PROFILE_ID)
@@ -123,11 +125,11 @@ class google_work:
             time.sleep(wait_time)
             action.send_keys(Keys.ENTER).perform()
         
-
+        time.sleep(3)
         #second Window
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[1]/div/div/span/button[1]').click()
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[2]/span/div/div[1]/div[1]').click()
-
+        time.sleep(3)
         action.send_keys(self.DATA['Text']).perform()
        
         textPart =self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[6]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[2]/div[1]/div[1]/p/span')
@@ -141,6 +143,8 @@ class google_work:
         time.sleep(3)
         textPart.click()
 
+
+        time.sleep(3)
         # third window 
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[1]/div/div/span/button[2]/span[2]').click()
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[3]/span/div/div/div/div[2]/div/div[3]/div[3]').click()
@@ -148,7 +152,7 @@ class google_work:
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[1]/div/div/span/button[1]').click()
         self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[4]/span/div/div[1]/div[2]/span/div/div[1]/div[1]').click()
 
-
+        time.sleep(3)
         action.send_keys(self.DATA['Text']).perform()
 
         textPart = self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[4]/div[3]/span/div/div[2]/div[2]/div/div/span/div/div[4]/div/div[1]/div/div/article/section/div[7]/div[6]/div/group/div[2]/div/row/div/div[2]/tile/div[2]/div/div[2]/div[1]/div[1]/p/span')
@@ -196,8 +200,11 @@ class google_work:
 
 
         action.send_keys(choose_random_word(self.DATA['Text'])+" "+ choose_random_word(self.DATA['Text'])+" "+choose_random_word(self.DATA['Text'])).perform()
-
-        self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[6]/div/div[2]/span/div/div[2]/div[1]/div[1]/div[1]/input').click()
+        time.sleep(3)
+        try:
+            self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[6]/div/div[2]/span/div/div[2]/div[1]/div[1]/div[1]/input').click()
+        except:
+            self.driver.find_element(By.XPATH,'/html/body/div[1]/div/div[7]/div/div[2]/span/div/div[2]/div[1]/div[1]/div[1]/input').click()
         time.sleep(1)
         action.send_keys(Keys.ARROW_DOWN).perform()
         time.sleep(1)
@@ -401,12 +408,13 @@ class google_work:
         time.sleep(30)
         #Test Live URL
         self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[3]/div/div[2]/div[1]/div/div[2]/c-wiz/div/div').click()
-        time.sleep(30)
+        time.sleep(60)
 
         #Request indexing (Live test)
         for _ in range(5):
             try:
-                self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[4]/div/div[2]/span/div/div[2]/span/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click()
+                self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[4]/div/div[2]/span/div/div[2]/span/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click() 
+                
                 time.sleep(15)
 
                 self.driver.find_element(By.XPATH,'/html/body/div[7]/div[6]/div/div[2]/div[2]/div[1]/div/span').text
@@ -416,15 +424,23 @@ class google_work:
                 action.send_keys(Keys.ESCAPE).perform()
                 printError("Oops can't request indexing\n Next attempt in 30 seconds")
                 time.sleep(30)
-        #Google index
+        # Google index
         time.sleep(5)
-        self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[2]/div/div[2]/span/div/div[2]/span/div[1]/div/div[2]/c-wiz/div/div[1]').click()
+        try:
+            self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[2]/div/div[2]/span/div/div[2]/span/div[1]/div/div[2]/c-wiz/div/div[1]').click()
+        except:
+            time.sleep(5)
+            self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[4]/div[1]/div[2]/span/div/div[2]/span/div[1]/div/div[2]/c-wiz/div/div[1]').click() #portugal
+
         time.sleep(10)
 
         #Request indexing (Google index)
         for _ in range(5):
             try:
-                self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[3]/div/div[2]/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click()
+                try:
+                    self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[3]/div/div[2]/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click()
+                except:
+                    self.driver.find_element(By.XPATH,'/html/body/div[7]/c-wiz[5]/div[1]/div[2]/div[2]/div/div/div[1]/span/div[2]/div/c-wiz[2]/div[3]/span/div').click() #portugal
                 time.sleep(15)
 
                 self.driver.find_element(By.XPATH,'/html/body/div[7]/div[6]/div/div[2]/div[2]/div[1]/div/span').text
@@ -443,15 +459,15 @@ def work():
     gw = google_work()
     printOk("Start working")
     
-    gw.create_site()
-    printOk("Site was created")
+    # gw.create_site()
+    # printOk("Site was created")
 
-    # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
-    gw.perform_analytics()
-    printOk(str("MEASUREMENT ID = " + gw.MEASUREMENT_ID + "\nAnalytics performed"))
-    gw.add_statistics()
-    printOk("Site with MEASUREMENT ID was published")
-    # gw.url = 'https://sites.google.com/view/duchodu-ceska/ramci'
+    # # gw.url = 'https://sites.google.com/view/stejna-Naopak/Ceska'
+    # gw.perform_analytics()
+    # printOk(str("MEASUREMENT ID = " + gw.MEASUREMENT_ID + "\nAnalytics performed"))
+    # gw.add_statistics()
+    # printOk("Site with MEASUREMENT ID was published")
+    gw.url = 'https://sites.google.com/view/CSSZ-variantou/call'
 
     gw.google_console()
     printOk("Verifird")
